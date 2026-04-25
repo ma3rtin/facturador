@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum CondicionIVA {
+  RESPONSABLE_INSCRIPTO
+  MONOTRIBUTISTA
+  EXENTO
+  CONSUMIDOR_FINAL
+  NO_RESPONSABLE
+}
+
+enum TipoFactura {
+  A
+  B
+  C
+  M
+  X
+}
+
+enum EstadoFactura {
+  BORRADOR
+  EMITIDA
+  ANULADA
+}
+
+enum EstadoPedido {
+  PENDIENTE
+  EN_PROCESO
+  ENTREGADO
+  CANCELADO
+}
+
+model Cliente {
+  id             String       @id @default(cuid())
+  razonSocial    String
+  cuit           String?      @unique
+  dni            String?
+  condicionIVA   CondicionIVA @default(CONSUMIDOR_FINAL)
+  domicilio      String?
+  zona           String?
+  telefono       String?
+  email          String?
+  observaciones  String?
+  saldoPendiente Float        @default(0)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  pedidos  Pedido[]
+  pagos    Pago[]
+  facturas Factura[]
+}
+
+model Pedido {
+  id            String       @id @default(cuid())
+  clienteId     String
+  cliente       Cliente      @relation(fields: [clienteId], references: [id])
+  fecha         DateTime     @default(now())
+  estado        EstadoPedido @default(PENDIENTE)
+  observaciones String?
+  total         Float        @default(0)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  items    ItemPedido[]
+  facturas Factura[]
+}
+
+model ItemPedido {
+  id             String @id @default(cuid())
+  pedidoId       String
+  pedido         Pedido @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  descripcion    String
+  cantidad       Float
+  unidadMedida   String @default("unidades")
+  precioUnitario Float
+  subtotal       Float
+}
+
+model Pago {
+  id          String   @id @default(cuid())
+  clienteId   String
+  cliente     Cliente  @relation(fields: [clienteId], references: [id])
+  monto       Float
+  fecha       DateTime @default(now())
+  concepto    String?
+  comprobante String?
+  createdAt   DateTime @default(now())
+}
+
+model Factura {
+  id                String        @id @default(cuid())
+  clienteId         String
+  cliente           Cliente       @relation(fields: [clienteId], references: [id])
+  pedidoId          String?
+  pedido            Pedido?       @relation(fields: [pedidoId], references: [id])
+  tipoFactura       TipoFactura   @default(B)
+  puntoVenta        Int           @default(1)
+  numeroComprobante Int?
+  fecha             DateTime      @default(now())
+  condicionVenta    String        @default("Contado")
+  estado            EstadoFactura @default(BORRADOR)
+  cae               String?
+  caeFechaVto       DateTime?
+  importeNeto       Float         @default(0)
+  importeIVA        Float         @default(0)
+  importeTotal      Float         @default(0)
+  observaciones     String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  items ItemFactura[]
+}
+
+model ItemFactura {
+  id             String  @id @default(cuid())
+  facturaId      String
+  factura        Factura @relation(fields: [facturaId], references: [id], onDelete: Cascade)
+  descripcion    String
+  cantidad       Float
+  unidadMedida   String  @default("unidades")
+  precioUnitario Float
+  alicuotaIVA    Float   @default(21)
+  bonificacion   Float   @default(0)
+  subtotal       Float
+  subtotalConIVA Float
+}
