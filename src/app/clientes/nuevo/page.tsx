@@ -50,13 +50,13 @@ export default function NuevoClientePage() {
 
   const field = (label: string, key: keyof typeof form, type = "text", placeholder = "") => (
     <div>
-      <label className="block text-sm font-medium text-[#1a3d2b] mb-1">{label}</label>
+      <label className="block text-sm font-medium text-[#1a2419] mb-1">{label}</label>
       <input
         type={type}
         value={form[key] as string}
         onChange={(e) => setForm((f) => ({ ...f, [key]: e.target.value }))}
         placeholder={placeholder}
-        className="w-full border border-[#e5e7eb] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#52b788] focus:border-transparent"
+        className="w-full bg-white border border-[#dde6de] rounded-lg px-3 py-2 text-sm text-[#1a2419] placeholder-[#9aab9d] focus:outline-none focus:ring-2 focus:ring-[#16a34a] focus:border-transparent"
       />
     </div>
   );
@@ -64,10 +64,10 @@ export default function NuevoClientePage() {
   return (
     <div className="p-8 max-w-2xl">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-[#1a3d2b]">Nuevo cliente</h1>
+        <h1 className="text-2xl font-bold text-[#1a2419]">Nuevo cliente</h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-[#e5e7eb] p-6 shadow-sm flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-[#dde6de] p-6 flex flex-col gap-4 shadow-sm">
         {field("Razón Social / Nombre *", "razonSocial", "text", "Ej: Juan García")}
 
         <div className="grid grid-cols-2 gap-4">
@@ -76,11 +76,11 @@ export default function NuevoClientePage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-[#1a3d2b] mb-1">Condición frente al IVA</label>
+          <label className="block text-sm font-medium text-[#1a2419] mb-1">Condición frente al IVA</label>
           <select
             value={form.condicionIVA}
             onChange={(e) => setForm((f) => ({ ...f, condicionIVA: e.target.value as CondicionIVA }))}
-            className="w-full border border-[#e5e7eb] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#52b788]"
+            className="w-full bg-white border border-[#dde6de] rounded-lg px-3 py-2 text-sm text-[#1a2419] focus:outline-none focus:ring-2 focus:ring-[#16a34a]"
           >
             {condicionOpciones.map((o) => (
               <option key={o.value} value={o.value}>{o.label}</option>
@@ -98,12 +98,12 @@ export default function NuevoClientePage() {
         {field("Email", "email", "email", "cliente@ejemplo.com")}
 
         <div>
-          <label className="block text-sm font-medium text-[#1a3d2b] mb-1">Observaciones</label>
+          <label className="block text-sm font-medium text-[#1a2419] mb-1">Observaciones</label>
           <textarea
             value={form.observaciones}
             onChange={(e) => setForm((f) => ({ ...f, observaciones: e.target.value }))}
             rows={3}
-            className="w-full border border-[#e5e7eb] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#52b788]"
+            className="w-full bg-white border border-[#dde6de] rounded-lg px-3 py-2 text-sm text-[#1a2419] placeholder-[#9aab9d] focus:outline-none focus:ring-2 focus:ring-[#16a34a]"
           />
         </div>
 
@@ -111,14 +111,14 @@ export default function NuevoClientePage() {
           <button
             type="submit"
             disabled={!form.razonSocial || loading}
-            className="bg-[#f47c3a] text-white px-6 py-2.5 rounded-xl font-medium text-sm hover:bg-[#e06828] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-[#ea580c] text-white px-6 py-2.5 rounded-xl font-medium text-sm hover:bg-[#c2410c] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Guardando..." : "Guardar cliente"}
           </button>
           <button
             type="button"
             onClick={() => router.back()}
-            className="border border-[#e5e7eb] px-6 py-2.5 rounded-xl font-medium text-sm text-[#6b7280] hover:bg-[#f9fafb] transition-colors"
+            className="bg-white border border-[#dde6de] px-6 py-2.5 rounded-xl font-medium text-sm text-[#5a6b5c] hover:text-[#1a2419] transition-colors"
           >
             Cancelar
           </button>

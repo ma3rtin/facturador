@@ -1,34 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --verde-oscuro: #1a3d2b;
-  --verde-medio: #2d6a4f;
-  --verde-claro: #52b788;
-  --naranja: #f47c3a;
-  --naranja-claro: #f9a96e;
-  --crema: #fdf8f0;
-  --texto-oscuro: #1a1a1a;
-  --texto-gris: #6b7280;
-  --borde: #e5e7eb;
+  --bg: #f2f5f2;
+  --bg-card: #ffffff;
+  --bg-hover: #f7faf7;
+  --border: #dde6de;
+  --verde: #16a34a;
+  --verde-dim: #15803d;
+  --naranja: #ea580c;
+  --naranja-dim: #c2410c;
+  --texto: #1a2419;
+  --texto-dim: #5a6b5c;
+  --texto-muted: #9aab9d;
+  --sidebar-bg: #1a3d2b;
+  --sidebar-border: #2d6a4f;
+  --sidebar-active: #ea580c;
+  --sidebar-text: #a8d5be;
+  --sidebar-text-hover: #ffffff;
 }
 
 @theme inline {
-  --color-verde-oscuro: var(--verde-oscuro);
-  --color-verde-medio: var(--verde-medio);
-  --color-verde-claro: var(--verde-claro);
-  --color-naranja: var(--naranja);
-  --color-naranja-claro: var(--naranja-claro);
-  --color-crema: var(--crema);
   --font-sans: ui-sans-serif, system-ui, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
-  background: var(--crema);
-  color: var(--texto-oscuro);
+  background: var(--bg);
+  color: var(--texto);
   font-family: ui-sans-serif, system-ui, sans-serif;
   margin: 0;
 }
