@@ -1,6 +1,7 @@
 import { getFactura } from "@/actions/facturas";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { EmitirFacturaButton } from "@/components/emitir-factura-button";
 
 export default async function FacturaDetailPage({
   params,
@@ -40,6 +41,16 @@ export default async function FacturaDetailPage({
           <p className="text-[#5a6b5c] text-sm mt-0.5">
             {new Date(factura.fecha).toLocaleDateString("es-AR", { dateStyle: "long" })}
           </p>
+        </div>
+        <div className="flex items-center gap-3">
+          {factura.estado === "BORRADOR" && <EmitirFacturaButton facturaId={factura.id} />}
+          <a
+            href={`/api/facturas/${factura.id}/pdf`}
+            target="_blank"
+            className="flex items-center gap-2 bg-white border border-[#dde6de] px-4 py-2 rounded-xl text-sm font-medium text-[#5a6b5c] hover:text-[#1a2419] hover:border-[#1a2419] transition-colors"
+          >
+            Descargar PDF
+          </a>
         </div>
       </div>
 

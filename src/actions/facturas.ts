@@ -87,3 +87,39 @@ export async function crearFactura(data: {
   revalidatePath("/facturacion");
   return factura;
 }
+
+export async function emitirFactura(facturaId: string) {
+  const factura = await prisma.factura.findUnique({
+    where: { id: facturaId },
+    include: { cliente: true, items: true },
+  });
+
+  if (!factura) throw new Error("Factura no encontrada");
+  if (factura.estado !== "BORRADOR") throw new Error("Solo se pueden emitir facturas en estado BORRADOR");
+
+  const { solicitarCAE } = await import("@/lib/afip/wsfe");
+
+  const { cae, caeFechaVto } = await solicitarCAE({
+    tipoFactura: factura.tipoFactura,
+    puntoVenta: factura.puntoVenta,
+    numeroComprobante: factura.numeroComprobante!,
+    fecha: factura.fecha,
+    cuit: factura.cliente.cuit,
+    importeNeto: factura.importeNeto,
+    importeIVA: factura.importeIVA,
+    importeTotal: factura.importeTotal,
+    items: factura.items.map((i) => ({
+      alicuotaIVA: i.alicuotaIVA,
+      subtotal: i.subtotal,
+    })),
+  });
+
+  const emitida = await prisma.factura.update({
+    where: { id: facturaId },
+    data: { cae, caeFechaVto, estado: "EMITIDA" },
+  });
+
+  revalidatePath(`/facturacion/${facturaId}`);
+  revalidatePath("/facturacion");
+  return emitida;
+}

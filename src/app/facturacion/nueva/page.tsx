@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { crearFactura } from "@/actions/facturas";
 import { getClientes } from "@/actions/clientes";
+import { getPedido } from "@/actions/pedidos";
 import { TipoFactura } from "@/generated/prisma/enums";
 
 type Cliente = { id: string; razonSocial: string; cuit: string | null; condicionIVA: string };
@@ -30,9 +31,11 @@ function NuevaFacturaForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const clienteIdParam = searchParams.get("clienteId") ?? "";
+  const pedidoIdParam = searchParams.get("pedidoId") ?? "";
 
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [clienteId, setClienteId] = useState(clienteIdParam);
+  const [pedidoId] = useState(pedidoIdParam || undefined);
   const [tipoFactura, setTipoFactura] = useState<TipoFactura>("B");
   const [puntoVenta, setPuntoVenta] = useState(1);
   const [condicionVenta, setCondicionVenta] = useState("Contado");
@@ -45,6 +48,24 @@ function NuevaFacturaForm() {
   useEffect(() => {
     getClientes().then((data) => setClientes(data as Cliente[]));
   }, []);
+
+  useEffect(() => {
+    if (!pedidoIdParam) return;
+    getPedido(pedidoIdParam).then((pedido) => {
+      if (!pedido) return;
+      setClienteId(pedido.clienteId);
+      setItems(
+        pedido.items.map((item) => ({
+          descripcion: item.descripcion,
+          cantidad: item.cantidad,
+          unidadMedida: item.unidadMedida,
+          precioUnitario: item.precioUnitario,
+          alicuotaIVA: 21,
+          bonificacion: 0,
+        }))
+      );
+    });
+  }, [pedidoIdParam]);
 
   function addItem() {
     setItems((prev) => [
@@ -78,6 +99,7 @@ function NuevaFacturaForm() {
     try {
       const factura = await crearFactura({
         clienteId,
+        pedidoId,
         tipoFactura,
         puntoVenta,
         condicionVenta,

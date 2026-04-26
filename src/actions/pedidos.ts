@@ -59,6 +59,13 @@ export async function crearPedido(data: {
   return pedido;
 }
 
+export async function getPedido(id: string) {
+  return prisma.pedido.findUnique({
+    where: { id },
+    include: { cliente: true, items: true, facturas: { select: { id: true, tipoFactura: true, puntoVenta: true, numeroComprobante: true, estado: true, importeTotal: true } } },
+  });
+}
+
 export async function actualizarEstadoPedido(id: string, estado: EstadoPedido) {
   const pedido = await prisma.pedido.update({ where: { id }, data: { estado } });
   revalidatePath("/pedidos");

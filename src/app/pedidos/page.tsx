@@ -1,6 +1,8 @@
 import { getPedidos } from "@/actions/pedidos";
 import Link from "next/link";
 import { ClipboardList } from "lucide-react";
+import { PedidoEstadoSelect } from "@/components/pedido-estado-select";
+import type { EstadoPedido } from "@/generated/prisma/enums";
 
 const estadoColor: Record<string, string> = {
   PENDIENTE: "bg-yellow-50 text-yellow-600",
@@ -49,16 +51,14 @@ export default async function PedidosPage() {
               </td>
               <td className="px-5 py-3.5 text-[#5a6b5c]">{p.items.length} ítem{p.items.length !== 1 ? "s" : ""}</td>
               <td className="px-5 py-3.5">
-                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${estadoColor[p.estado]}`}>
-                  {estadoLabel[p.estado]}
-                </span>
+                <PedidoEstadoSelect pedidoId={p.id} estado={p.estado as EstadoPedido} />
               </td>
               <td className="px-5 py-3.5 text-right font-semibold text-[#1a2419]">
                 ${p.total.toLocaleString("es-AR", { minimumFractionDigits: 2 })}
               </td>
               <td className="px-5 py-3.5 text-right">
-                <Link href={`/facturacion/nueva?pedidoId=${p.id}`} className="text-[#ea580c] text-xs font-medium hover:underline">
-                  Facturar
+                <Link href={`/pedidos/${p.id}`} className="text-[#ea580c] text-xs font-medium hover:underline">
+                  Ver
                 </Link>
               </td>
             </tr>
