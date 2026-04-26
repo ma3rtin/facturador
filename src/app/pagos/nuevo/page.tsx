@@ -43,7 +43,7 @@ function NuevoPagoForm() {
   }
 
   return (
-    <div className="p-8 max-w-lg">
+    <div className="p-8 max-w-6xl mx-auto">
       <h1 className="text-2xl font-bold text-[#1a2419] mb-6">Registrar pago</h1>
 
       <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-[#dde6de] p-6 flex flex-col gap-4 shadow-sm">

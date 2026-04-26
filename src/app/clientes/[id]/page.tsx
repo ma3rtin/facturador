@@ -26,7 +26,7 @@ export default async function ClienteDetailPage({
   if (!cliente) notFound();
 
   return (
-    <div className="p-8 max-w-4xl">
+    <div className="p-8 max-w-6xl mx-auto">
       <div className="flex items-center gap-2 text-sm text-[#5a6b5c] mb-4">
         <Link href="/clientes" className="hover:text-[#ea580c]">Clientes</Link>
         <span>/</span>

@@ -62,7 +62,7 @@ export default function NuevoClientePage() {
   );
 
   return (
-    <div className="p-8 max-w-2xl">
+    <div className="p-8 max-w-6xl mx-auto">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-[#1a2419]">Nuevo cliente</h1>
       </div>

@@ -113,7 +113,7 @@ function NuevaFacturaForm() {
   }
 
   return (
-    <div className="p-8 max-w-4xl">
+    <div className="p-8 max-w-6xl mx-auto">
       <h1 className="text-2xl font-bold text-[#1a2419] mb-6">Nueva factura</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">

@@ -27,7 +27,7 @@ export default async function DashboardPage() {
   const stats = await getStats();
 
   return (
-    <div className="p-8 max-w-4xl">
+    <div className="p-8 max-w-7xl mx-right-auto">
       <div className="mb-10">
         <p className="text-[#9aab9d] text-xs uppercase tracking-widest mb-1">Panel general</p>
         <h1 className="text-3xl font-bold text-[#1a2419]">La Paltería</h1>

@@ -52,7 +52,7 @@ function NuevoPedidoForm() {
   }
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-8 max-w-6xl mx-auto">
       <h1 className="text-2xl font-bold text-[#1a2419] mb-6">Nuevo pedido</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">

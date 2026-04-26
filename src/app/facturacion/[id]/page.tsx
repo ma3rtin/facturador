@@ -19,7 +19,7 @@ export default async function FacturaDetailPage({
   }[factura.estado];
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-8 max-w-6xl mx-auto">
       <div className="flex items-center gap-2 text-sm text-[#5a6b5c] mb-4">
         <Link href="/facturacion" className="hover:text-[#ea580c]">Facturación</Link>
         <span>/</span>
